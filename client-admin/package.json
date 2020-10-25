@@ -4,34 +4,27 @@
   "repository": "github:pol-is/polisClientAdmin",
   "description": "Polis Admin Console",
   "engines": {
-    "node": "8.17.0"
+    "node": "11.15.0"
   },
   "scripts": {
-    "clean": "rimraf dist",
-    "build:webpack": "npm run clean && NODE_ENV=production webpack --config webpack.config.js",
-    "build:webpack_unminified": "npm run clean && NODE_ENV=development webpack --config webpack.config.unminified.js",
-    "build": "npm run build:webpack",
-    "build:preprod": "gulp deployPreprod",
-    "build-debug": "npm run build:webpack_unminified",
-    "deploy:prod": "./deploy_TO_PRODUCTION",
-    "deploy:preprod": "./deployPreprod",
-    "start": "./x",
-    "lint": "eslint src",
-    "test": "jest"
+    "analyze": "razzle build --type=spa --analyze",
+    "build": "npm run build:razzle",
+    "build:razzle": "razzle build --type=spa",
+    "deploy": "npm run deploy:preprod",
+    "deploy:preprod": "razzle build --type=spa --deploy",
+    "deploy:prod": "razzle build --type=spa --deploy --prod",
+    "start": "razzle start --type=spa",
+    "start:prod": "serve -s build/public",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "test": "razzle test --env=jsdom"
   },
   "author": "Colin Megill",
   "devDependencies": {
-    "@babel/core": "^7.11.6",
-    "@babel/plugin-proposal-class-properties": "^7.12.1",
     "@babel/plugin-proposal-decorators": "^7.10.5",
-    "@babel/plugin-transform-runtime": "^7.11.5",
-    "@babel/preset-env": "^7.11.5",
-    "@babel/preset-react": "^7.10.4",
-    "@mdx-js/loader": "^1.6.18",
     "babel-eslint": "^10.1.0",
-    "babel-loader": "^8.1.0",
     "babel-plugin-lodash": "^3.3.4",
-    "bluebird": "^3.7.2",
+    "compression-webpack-plugin": "^4.0.0",
     "eslint": "^7.11.0",
     "eslint-config-prettier": "^6.12.0",
     "eslint-config-prettier-standard": "^3.0.1",
@@ -43,33 +36,26 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-react": "^7.21.3",
     "eslint-plugin-standard": "^4.0.1",
-    "express": "^4.17.1",
-    "file-loader": "~6.1.1",
+    "event-hooks-webpack-plugin": "^2.1.7",
     "glob": "^7.1.2",
-    "gulp": "^3.9.0",
-    "gulp-cli": "^1.4.0",
-    "gulp-gzip": "1.4.2",
-    "gulp-s3": "git://github.com/mbjorkegren/gulp-s3#847e2b372204b4ceeccb0e9b567f28ff00e7fa1d",
-    "gulp-scp2": "^0.2.0",
     "lodash-webpack-plugin": "^0.11.5",
     "prettier": "^2.1.2",
     "prettier-config-standard": "^1.0.1",
-    "request": "^2.88.2",
-    "rimraf": "^3.0.2",
-    "run-sequence": "~2.2.1",
+    "razzle": "^3.1.6",
+    "razzle-plugin-mdx": "^3.1.6",
+    "serve": "^11.3.2",
     "webpack": "^4.44.2",
     "webpack-bundle-analyzer": "^3.9.0",
     "webpack-cli": "^3.3.12",
-    "webpack-dev-middleware": "^3.7.2"
+    "webpack-s3-plugin": "^1.0.3"
   },
   "dependencies": {
-    "boolean": "^3.0.1",
     "d3-scale": "^3.2.3",
     "jquery": "^2.1.4",
     "lodash": "^4.17.20",
     "prop-types": "^15.7.2",
-    "react": "^16.4.0",
-    "react-dom": "^16.4.0",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
     "react-easy-emoji": "^1.4.0",
     "react-redux": "7.2.1",
     "react-router-dom": "^5.2.0",
@@ -85,6 +71,21 @@
       "json",
       "lcov",
       "text-summary"
+    ]
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
     ]
   }
 }

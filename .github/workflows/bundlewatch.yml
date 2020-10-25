@@ -46,9 +46,11 @@ jobs:
 
     - name: "Install & Build: client-admin"
       working-directory: client-admin
+      env:
+        SKIP_CHUNK_HASHING: true
       run: |
         npm install
-        npm run build:webpack
+        npm run build
 
     - name: Run Bundlewatch
       # TODO: Move config to root directory, so easier to run against all components.

@@ -5,9 +5,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <script>
-      window.domainWhitelist = <%= domainWhitelist %>;
-    </script>
     <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css"> -->
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
@@ -18,13 +15,12 @@
   </head>
   <body class="viewport avenir">
     <div id="root"></div>
-    <script src="/dist/admin_bundle.js"></script>
     <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
     <div id="fb-root"></div>
     <script>
       window.fbAsyncInit = function () {
         FB.init({
-          appId: "<%= fbAppId %>",
+          appId: "<%= process.env.RAZZLE_FB_APP_ID %>",
           xfbml: true,
           version: "v2.1",
         });
@@ -44,9 +40,7 @@
       })(document, "script", "facebook-jssdk");
     </script>
     <script>
-      window.usePlans = <%= usePlans %>;
-      if (<%= useIntercom %>) {
-        window.useIntercom = true;
+      if (!<%= process.env.RAZZLE_DISABLE_INTERCOM %>) {
         window.initIntercom = function(){
           var w=window;var ic=w.Intercom;
           if(typeof ic==="function"){

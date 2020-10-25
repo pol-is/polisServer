@@ -1399,6 +1399,7 @@ helpersInitialized.then(function(o) {
 
   // proxy static files
   app.get(/^\/cached\/.*/, proxy);
+  app.get(/^\/static\/.*/, proxy);
   app.get(/^\/font\/.*/, proxy);
   app.get(/^\/.*embed.*js\/.*/, proxy);
 
