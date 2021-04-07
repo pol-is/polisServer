@@ -663,22 +663,6 @@ gulp.task("watchForDev", [
     });
 });
 
-function notifySlackOfDeployment(env) {
-  var slackPath = '.polis_slack_creds.json';
-  if (fs.existsSync(slackPath)) {
-    var creds = JSON.parse(fs.readFileSync(slackPath));
-
-    getGitHash().then(function(hash) {
-      var slackToken = creds.apikey;
-      var message = "deploying to " + env +
-        "\n" + hash +
-        "\n" + new Date();
-      var url = "https://slack.com/api/chat.postMessage?token="+slackToken+"&channel=C02G773HT&text="+message+"&pretty=1";
-      request(url);
-    });
-  }
-}
-
 gulp.task('prodBuildNoDeploy', [
   "prodConfig",
   "dist"
@@ -688,8 +672,6 @@ gulp.task('deploy_TO_PRODUCTION', [
   "prodConfig",
   "dist"
 ], function() {
-
-  notifySlackOfDeployment("prod");
 
   var uploader;
   if ('s3' === polisConfig.UPLOADER) {
@@ -716,7 +698,6 @@ gulp.task('deploy_TO_PRODUCTION', [
 
 
 function doUpload() {
-  notifySlackOfDeployment("preprod");
 
   var uploader;
   if ('s3' === polisConfig.UPLOADER) {
