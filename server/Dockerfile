@@ -8,6 +8,7 @@ RUN apk add --no-cache --virtual .build \
   g++ git make python
 
 COPY package*.json ./
+
 # TODO get `npm ci` to work
 RUN npm install
 
@@ -17,4 +18,4 @@ COPY . .
 
 EXPOSE 5000
 
-CMD node --max_old_space_size=400 --gc_interval=100 --harmony app.js
+CMD npm run build && npm run serve
